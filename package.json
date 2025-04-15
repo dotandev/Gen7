@@ -1,0 +1,29 @@
+{
+  "name": "gen7",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.0",
+    "nanoid": "^5.1.5",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@prisma/client": "^6.6.0",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.14.1",
+    "prisma": "^6.6.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
