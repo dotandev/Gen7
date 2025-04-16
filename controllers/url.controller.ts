@@ -1,9 +1,17 @@
 import { Request, Response } from "express";
 import { ShortenUrlSchema } from "../models";
-import { getLongUrl, shortenUrl } from "../services";
+import { ShortenerService } from "../services";
 
 
-export class ShortnerController {
+const shortenerService = new ShortenerService()
+
+const {
+  shortenUrl,
+  getLongUrl,
+  incrementClick
+} = shortenerService
+
+export class ShortenerController {
   public async createShortUrl(req: Request, res: Response) {
     const parsed = ShortenUrlSchema.safeParse(req.body) as any;
     if (!parsed.success) {
@@ -18,13 +26,21 @@ export class ShortnerController {
     });
   }
 
+
   public async redirectToLongUrl(req: Request, res: Response) {
     const { shortCode } = req.params;
-    const longUrl = await getLongUrl(shortCode) as string;
+
+    const userAgent = req.get("User-Agent") || "unknown";
+    const referrer = req.get("Referer") || undefined;
+    const ip = req.ip;
+
+    const longUrl = await incrementClick(shortCode, userAgent, ip, referrer);
+
     if (!longUrl) {
       res.status(404).json({ error: "Short URL not found." });
     }
-    res.redirect(302, longUrl);
+
+    res.redirect(302, longUrl as string);
   }
 
 }

@@ -15,8 +15,22 @@ datasource db {
 }
 
 model Url {
-  id        String @id @default(cuid())
-  longUrl   String
-  shortCode String @unique
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  longUrl    String
+  shortCode  String   @unique
+  createdAt  DateTime @default(now())
+  clickCount Int      @default(0)
+  visits     Visit[]
+  expiresAt  DateTime?
+}
+
+model Visit {
+  id        String   @id @default(cuid())
+  urlId     String
+  timestamp DateTime @default(now())
+  userAgent String
+  referrer  String?
+  ip        String?
+
+  url       Url @relation(fields: [urlId], references: [id])
 }
