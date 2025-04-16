@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { ShortnerController } from "../controllers";
+import { ShortenerController } from "../controllers";
 
 export const URLRouter: Router = Router();
-const shortnerController = new ShortnerController
+const shortenerController = new ShortenerController
 
 const {
     createShortUrl,
     redirectToLongUrl
-} = shortnerController
+} = shortenerController
 
 URLRouter.post("/shorten", createShortUrl);
 URLRouter.get("/:shortCode", redirectToLongUrl);
