@@ -9,7 +9,6 @@ export class ShortenerService {
     if (existing) return existing.shortCode;
   
     const shortCode = nanoid(7);
-        // const shortCode = 'y'
 
     await prisma.url.create({
       data: {
@@ -44,6 +43,15 @@ export class ShortenerService {
     });
   
     return url.longUrl;
+  }
+
+  public async getClicks (shortCode: string) {
+    const url = await prisma.url.findUnique({ where: { shortCode } });
+    if (!url) return null;
+
+    let clicks = url.clickCount
+
+    return clicks;
   }
 
 }

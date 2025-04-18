@@ -8,8 +8,11 @@ const shortenerService = new ShortenerService()
 const {
   shortenUrl,
   getLongUrl,
-  incrementClick
+  incrementClick,
+  getClicks
 } = shortenerService
+
+const domain = process.env.BASE_URL ?? "http://localhost:3000";
 
 export class ShortenerController {
   public async createShortUrl(req: Request, res: Response) {
@@ -19,7 +22,7 @@ export class ShortenerController {
     }
 
     const shortCode = await shortenUrl(parsed.data.longUrl);
-    const domain = process.env.BASE_URL ?? "http://localhost:3000";
+   
     res.status(200).json({
       longUrl: parsed.data.longUrl,
       shortUrl: `${domain}/${shortCode}`,
@@ -41,6 +44,21 @@ export class ShortenerController {
     }
 
     res.redirect(302, longUrl as string);
+  }
+
+  public async getURLClicks(req: Request, res: Response) {
+    const { shortCode } = req.params;
+
+    const count = await getClicks(shortCode)
+
+    if (!count) {
+      res.status(404).json({ error: "Short URL not found." });
+    }
+
+    res.status(200).json({
+      noOfClicks: count,
+      shortUrl: `${domain}/${shortCode}`,
+    });
   }
 
 }

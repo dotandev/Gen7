@@ -6,8 +6,10 @@ const shortenerController = new ShortenerController
 
 const {
     createShortUrl,
-    redirectToLongUrl
+    redirectToLongUrl,
+    getURLClicks
 } = shortenerController
 
 URLRouter.post("/shorten", createShortUrl);
 URLRouter.get("/:shortCode", redirectToLongUrl);
+URLRouter.get("/clicks/:shortCode", getURLClicks)
